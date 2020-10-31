@@ -1,0 +1,57 @@
+﻿@model IEnumerable<HelendoWebK204.Models.Slider>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Dashboard/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Index</h2>
+
+@*<p>
+    @Html.ActionLink("Create New", "Create")
+</p>*@
+<table class="table">
+    <tr>
+        <th>
+            Image Link
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Header)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.subHeader)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th></th>
+    </tr>
+    @if (Model != null)
+    {
+        foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <img src="@item.ImageUrl" alt="Alternate Text" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Header)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.subHeader)
+                </td>
+                <td>
+                    @(item.Description.Length>60 ? item.Description.Substring(0,60)+"..." : item.Description)
+                </td>
+                <td>
+                    <a class="btn btn-warning" href="@Url.Action("Edit","AdminSlider",new { id=item.ID})">Edit</a>
+                    @*@Html.ActionLink("Edit", "Edit", new { id = item.ID }, htmlAttributes: new { @class="btn btn-warning" })*@ 
+                    @*@Html.ActionLink("Details", "Details", new { id = item.ID }) |*@
+                    @*@Html.ActionLink("Delete", "Delete", new { id = item.ID })*@
+                </td>
+            </tr>
+        }
+
+    }
+
+</table>
