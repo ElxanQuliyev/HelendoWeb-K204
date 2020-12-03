@@ -1,0 +1,49 @@
+﻿@model ShopVM
+
+@if (Model.Products != null && Model.Products.Count > 0)
+{
+    <div class="row">
+        @foreach (var pro in Model.Products)
+        {
+            <div class="col-lg-4 col-md-4 col-sm-6">
+                <!-- Single Product Item Start -->
+                <div class="single-product-item text-center">
+                    <div class="products-images">
+                        <a href="product-details.html" class="product-thumbnail">
+                            <img src="@pro.ImageUrl" class="img-fluid" alt="Product Images">
+
+                            <span class="ribbon out-of-stock ">
+                                Out Of Stock
+                            </span>
+                        </a>
+                        <div class="product-actions">
+                            <a class="pro-modal" href="#" data-toggle="modal" pro-id="@pro.ID" data-target="#prodect-modal"><i class="p-icon icon-plus"></i><span class="tool-tip">Quick View</span></a>
+                            <a class="addToCart" pro-id="@pro.ID" href="javascript:void(0)"><i class="p-icon icon-bag2"></i> <span class="tool-tip">Add to cart</span></a>
+                            <a href="wishlist.html"><i class="p-icon icon-heart"></i> <span class="tool-tip">Browse Wishlist</span></a>
+                        </div>
+                    </div>
+                    <div class="product-content">
+                        <h6 class="prodect-title"><a href="@Url.Action("Detail", "Products", new { id = pro.ID })">@pro.Name</a></h6>
+                        <div class="prodect-price">
+                            @if (pro.Discount != null && pro.Discount > 0)
+                            {
+                                <span class='new-price'>@(pro.Price-pro.Discount) Azn -</span>
+                                <span class="old-price"><del>@pro.Price Azn</del> </span>
+                            }
+                            else
+                            {
+                                <span class="old-price">@pro.Price Azn </span>
+                            }
+                        </div>
+                    </div>
+                </div><!-- Single Product Item End -->
+            </div>
+
+        }
+
+    </div>
+}
+else
+{
+    <p class="alert alert-warning">No products found...</p>
+}

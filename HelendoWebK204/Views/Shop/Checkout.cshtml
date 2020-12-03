@@ -1,0 +1,229 @@
+﻿@model HelendoWebK204.ViewModels.CheckoutVM
+@{
+    ViewBag.Title = "Checkout";
+    decimal totalBill = 0;
+}
+
+
+
+<!-- breadcrumb-area start -->
+<div class="breadcrumb-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="row breadcrumb_box  align-items-center">
+                    <div class="col-lg-6 col-md-6 col-sm-6 text-center text-sm-left">
+                        <h2 class="breadcrumb-title">Checkout</h2>
+                    </div>
+                    <div class="col-lg-6  col-md-6 col-sm-6">
+                        <!-- breadcrumb-list start -->
+                        <ul class="breadcrumb-list text-center text-sm-right">
+                            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                            <li class="breadcrumb-item active">Checkout</li>
+                        </ul>
+                        <!-- breadcrumb-list end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- breadcrumb-area end -->
+
+
+@if (Model.Products != null && Model.Products.Count > 0 && Model.User != null)
+{
+
+
+    <div class="site-wrapper-reveal border-bottom">
+
+        <!-- checkout start -->
+        <div class="checkout-main-area section-space--ptb_90">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-7">
+                        <div class="customer-zone mb-30">
+                            <p class="cart-page-title">Returning customer? <a class="checkout-click-login" href="#"> Click here to login</a></p>
+                            <div class="checkout-login-info">
+                                <p>If you have shopped with us before, please enter your details in the boxes below. If you are a new customer, please proceed to the Billing & Shipping section.</p>
+                                <form action="#" class="account-form-box">
+                                    <div class="single-input mt-20">
+                                        <label>Username or email <span class="required">*</span></label>
+                                        <input type="email" value="">
+                                    </div>
+                                    <div class="single-input mt-20">
+                                        <label>Password <span class="required">*</span></label>
+                                        <input type="password" placeholder="Password">
+                                    </div>
+                                    <div class="checkbox-wrap mt-10">
+                                        <label class="label-for-checkbox inline mt-15">
+                                            <input class="input-checkbox" name="rememberme" type="checkbox" id="rememberme" value="forever"> <span>Remember me</span>
+                                        </label>
+                                    </div>
+                                    <div class="button-box mt-15">
+                                        <a href="#" class="btn btn--lg btn--black">Login</a>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-5">
+                        <div class="customer-zone mb-30">
+                            <p class="cart-page-title">Have a coupon? <a class="checkout-click" href="#">Click here to enter your code</a></p>
+                            <div class="checkout-coupon-info">
+                                <p>If you have a coupon code, please apply it below.</p>
+                                <form action="#">
+                                    <input type="text" placeholder="Coupon code">
+                                    <input type="submit" value="Apply Coupon">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="checkout-wrap">
+                    <div class="row">
+                        <div class="col-lg-7">
+                            <div class="billing-info-wrap mr-100">
+                                <h6 class="mb-20">Billing Details</h6>
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6">
+                                        <div class="billing-info mb-25">
+                                            <label>First name <span class="required" title="required">*</span></label>
+                                            <input type="text" name="Firstname" value="@Model.User.Firstname">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                        <div class="billing-info mb-25">
+                                            <label>Last name <span class="required" title="required">*</span></label>
+                                            <input type="text" name="Lastname" value="@Model.User.Lastname">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-12">
+                                        <div class="billing-info mb-25">
+                                            <label>Address <span class="required" title="required">*</span></label>
+                                            <input name="Address" value="@Model.User.Address" placeholder="Apartment, suite, unit etc. (optional)" type="text">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-12 col-md-12">
+                                        <div class="billing-info mb-25">
+                                            <label>Phone <span class="required" title="required">*</span></label>
+                                            <input type="text" name="PhoneNumber" disabled value="@Model.User.PhoneNumber">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12">
+                                        <div class="billing-info mb-25">
+                                            <label>Email Address <span class="required" title="required">*</span></label>
+                                            <input type="text" name="Email" value="@Model.User.Email" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="additional-info-wrap">
+                                    <h6 class="mb-10">Additional information</h6>
+                                    <label>Order notes (optional)</label>
+                                    <textarea placeholder="Notes about your order, e.g. special notes for delivery. " name="message"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-5">
+                            <div class="your-order-wrappwer tablet-mt__60 small-mt__60">
+                                <h6 class="mb-20">Your order</h6>
+                                <div class="your-order-area">
+                                    <div class="your-order-wrap gray-bg-4">
+                                        <div class="your-order-info-wrap">
+                                            <div class="your-order-info">
+                                                <ul>
+                                                    <li>Product <span>Total</span></li>
+                                                </ul>
+                                            </div>
+                                            <div class="your-order-middle">
+                                                <ul>
+
+                                                    @foreach (var product in Model.Products)
+                                                    {
+                                                        int quantity = Model.ProductIDS.Where(x => x == product.ID).Count();
+                                                        totalBill += product.Price * quantity;
+                                                        <li>@product.Name X @quantity <span>$ @product.Price  </span></li>
+                                                    }
+                                                </ul>
+                                            </div>
+                                            <div class="your-order-info order-subtotal">
+                                                <ul>
+                                                    <li><strong>Subtotal</strong> <span>$ @Model.Products.Sum(x => x.Price * Model.ProductIDS.Where(product => product == x.ID).Count()) </span></li>
+                                                </ul>
+                                            </div>
+                                            <div class="your-order-info order-total">
+                                                <ul>
+                                                    <li><strong>Total</strong> <span>$ @totalBill </span></li>
+                                                </ul>
+                                            </div>
+
+                                            <div class="payment-area mt-30">
+                                                <div class="single-payment">
+                                                    <h6 class="mb-10">Check payments</h6>
+                                                    <p>Please send a check to Store Name, Store Street, Store Town, Store State / County, Store Postcode.</p>
+                                                </div>
+                                                @*<div class="single-payment mt-20">
+                                                        <h6 class="mb-10">What is PayPal?</h6>
+                                                        <p>Pay via PayPal; you can pay with your credit card if you don’t have a PayPal account.</p>
+                                                    </div>*@
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                                <div class="payment-method">
+
+                                    <p class="mt-30">Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our <a href="#">privacy policy</a>.</p>
+                                </div>
+                                <div class="place-order mt-30">
+                                    <a href="#" class="btnPlaceOrder btn--full btn--black btn--lg text-center">Place Order</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- checkout end -->
+
+    </div>
+    @section scripts{
+        <script>
+        $(".btnPlaceOrder").on("click", function () {
+            $.ajax({
+                url: "@Url.Action("PlaceOrder", "Shop")",
+                method: "POST",
+                dataType: "JSON",
+                data: {
+                    productIDs: "@string.Join("-", Model.ProductIDS)"
+                },
+                success: function (res) {
+                    if (res.success) {
+                        Swal.fire(
+                            'Good job!',
+                            'You clicked the button!',
+                            'success'
+                        ).then(res=>{
+                            Cookies.set("CartProduct", "");
+                            window.location.href = "/";
+                        })
+                    }
+                }
+            });
+        })
+        </script>
+
+
+    }
+}
+else
+{
+    <div class="alert alert-warning">Cart is Empty!</div>
+}
+
+

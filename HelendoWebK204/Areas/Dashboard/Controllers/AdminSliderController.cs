@@ -9,6 +9,8 @@ using System.Web.Mvc;
 
 namespace HelendoWebK204.Areas.Dashboard.Controllers
 {
+    [AdminFilterAccount]
+
     public class AdminSliderController : Controller
     {
         HelendoDB db = new HelendoDB();

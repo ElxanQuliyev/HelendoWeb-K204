@@ -20,6 +20,13 @@ namespace HelendoWebK204
                 namespaces:new string[] { "HelendoWebK204.Controllers" }
 
             );
+            routes.MapRoute(
+          name: "HomePage",
+          url: "haqqimizda",
+          defaults: new { controller = "Home", action = "about"},
+          namespaces: new string[] { "HelendoWebK204.Controllers" }
+
+      );
         }
     }
 }

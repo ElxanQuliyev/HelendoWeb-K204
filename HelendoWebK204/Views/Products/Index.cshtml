@@ -1,0 +1,363 @@
+﻿@model ShopVM
+@using HelendoWebK204.Code
+@{
+    ViewBag.Title = "Index";
+}
+<link href="~/assets/rangeSlider/css/rSlider.min.css" rel="stylesheet" />
+<link href="~/assets/rangeSlider/nouislider.min.css" rel="stylesheet" />
+<!-- breadcrumb-area start -->
+<div class="breadcrumb-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="row breadcrumb_box  align-items-center">
+                    <div class="col-lg-6 col-md-6 col-sm-6 text-center text-sm-left">
+                        <h2 class="breadcrumb-title">Shop</h2>
+                    </div>
+                    <div class="col-lg-6  col-md-6 col-sm-6">
+                        <!-- breadcrumb-list start -->
+                        <ul class="breadcrumb-list text-center text-sm-right">
+                            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                            <li class="breadcrumb-item active">Shop</li>
+                        </ul>
+                        <!-- breadcrumb-list end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- breadcrumb-area end -->
+
+
+
+
+
+
+<div class="site-wrapper-reveal border-bottom">
+
+    <!-- Product Area Start -->
+    <div class="product-wrapper section-space--ptb_120">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-lg-3 col-md-3 order-md-1 order-2  small-mt__40">
+                    <div class="shop-widget widget-shop-categories">
+                        <div class="product-filter mb-4">
+                            <form action="@Url.Action("Index","Products")" method="get">
+                                <div class="input-group">
+                                    <input name="searchBy" type="text" class="form-control" placeholder="search...">
+                                    <input name="sortBy" type="hidden" class="form-control" value="@Model.SortBy">
+                                    <input name="CategoryID" type="hidden" class="form-control" value="@Model.CategoryId">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text bg-white"><i class="icon-magnifier"></i></span>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="product-filter">
+                            <h6 class="mb-20">Categories</h6>
+                            <ul class="widget-nav-list">
+                                <li><a href="@Url.Action("Index","Products")">All</a></li>
+                                @foreach (var category in Model.Categories)
+                                {
+                                    <li><a href="@Url.Action("Index","Products",new {categoryId=category.ID ,searchBy=Model.searchTerm ,sortBy=Model.SortBy})">@category.Name</a></li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Product Filter -->
+                    <div class="shop-widget">
+                        <div class="product-filter widget-price">
+                            <div class="double-slider">
+                                <input type="range" name="range_from" class="from" value="1" min="1" max="@Model.MaximumPrice" data-prev-value="1">
+                                <div class="progressbar_from"></div>
+                                <input type="range" name="range_to" class="to" value="@Model.MaximumPrice" min="1" max="@Model.MaximumPrice" data-prev-value="@Model.MaximumPrice">
+                                <div class="progressbar_to"></div>
+
+                                <span class="value-output from">1  <span>Azn</span></span>
+                                <span class="value-output to">@Model.MaximumPrice <span>Azn</span></span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Product Filter -->
+                    @*<div class="shop-widget">
+                            <div class="product-filter">
+                                <h6 class="mb-20">Tags</h6>
+                                <div class="tagcloud"><a href="#" class="selected">All</a><a href="#" class="">Accesssories</a><a href="#" class="">Box</a><a href="#" class="">chair</a><a href="#" class="">Deco</a><a href="#" class="">Furniture</a><a href="#" class="">Glass</a><a href="#" class="">Pottery</a><a href="#" class="">Table</a></div>
+                            </div>
+                        </div>*@
+                </div>
+                <div class="col-lg-9 col-md-9  order-md-2 order-1">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-8">
+                            <div class="shop-toolbar__items shop-toolbar__item--left">
+                                <div class="shop-toolbar__item shop-toolbar__item--result">
+                                    <p class="result-count"> Showing 1–9 of 21</p>
+                                </div>
+
+                                <div class="shop-toolbar__item shop-short-by">
+                                    <ul>
+                                        <li>
+                                            <a href="#">Sort by: <span class="d-none d-sm-inline-block">Default</span> <i class="fa fa-angle-down angle-down"></i></a>
+                                            <ul>
+                                                <li class="active"><a href="@Url.Action("Index","Products",new { sortBy=(int)SortByEnum.Default,categoryId=Model.CategoryId,searchBy=Model.searchTerm })">@SortByEnum.Default</a></li>
+                                                <li><a href="@Url.Action("Index","Products",new { sortBy=(int)SortByEnum.Popularity,categoryId=Model.CategoryId,searchBy=Model.searchTerm})">@SortByEnum.Popularity</a></li>
+                                                <li><a href="@Url.Action("Index","Products",new { sortBy=(int)SortByEnum.PriceLowToHigh,categoryId=Model.CategoryId,searchBy=Model.searchTerm})">@SortByEnum.PriceHighToLow</a></li>
+                                                <li><a href="@Url.Action("Index","Products",new { sortBy=(int)SortByEnum.PriceHighToLow,categoryId=Model.CategoryId,searchBy=Model.searchTerm})">@SortByEnum.PriceLowToHigh</a></li>
+                                            </ul>
+                                        </li>
+
+                                    </ul>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-4">
+                            <div class="shop-toolbar__items shop-toolbar__item--right">
+                                <div class="shop-toolbar__items-wrapper">
+
+                                    <div class="shop-toolbar__item">
+                                        <ul class="nav toolber-tab-menu justify-content-start" role="tablist">
+                                            <li class="tab__item nav-item active">
+                                                <a class="nav-link active" data-toggle="tab" href="#tab_columns_01" role="tab">
+                                                    <img src="assets/images/svg/column-03.svg" class="img-fluid" alt="Columns 03">
+                                                </a>
+                                            </li>
+                                            <li class="tab__item nav-item">
+                                                <a class="nav-link" data-toggle="tab" href="#tab_columns_02" role="tab"><img src="assets/images/svg/column-04.svg" class="img-fluid" alt="Columns 03"> </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="shop-toolbar__item shop-toolbar__item--filter ">
+                                        <a class="shop-filter-active" href="#">Filter<i class="icon-plus"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="product-filter-wrapper">
+                        <div class="row">
+                            <!-- Product Filter -->
+                            <div class=" mb-20 col__20">
+                                <div class="product-filter">
+                                    <h5>Color</h5>
+                                    <ul class="widget-nav-list">
+                                        <li><a href="#"><span class="swatch-color black"></span> Black</a></li>
+                                        <li><a href="#"><span class="swatch-color green"></span> Green</a></li>
+                                        <li><a href="#"><span class="swatch-color grey"></span> Grey</a></li>
+                                        <li><a href="#"><span class="swatch-color red"></span> Red</a></li>
+                                        <li><a href="#"><span class="swatch-color white"></span> White</a></li>
+                                        <li><a href="#"><span class="swatch-color yellow"></span> Yellow</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- Product Filter -->
+                            <div class=" mb-20 col__20">
+                                <div class="product-filter">
+                                    <h5>Size</h5>
+                                    <ul class="widget-nav-list">
+                                        <li><a href="#">Large</a></li>
+                                        <li><a href="#">Medium</a></li>
+                                        <li><a href="#">Small</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- Product Filter -->
+                            <div class=" mb-20 col__20">
+                                <div class="product-filter">
+                                    <h5>Price</h5>
+                                    <ul class="widget-nav-list">
+                                        <li><a href="#">$0.00 - $20.00</a></li>
+                                        <li><a href="#">$20.00 - $40.00</a></li>
+                                        <li><a href="#">£40.00 - £50.00</a></li>
+                                        <li><a href="#">£50.00 - £60.00</a></li>
+                                        <li><a href="#">£60.00 +</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- Product Filter -->
+                            <div class=" mb-20 col__20">
+                                <div class="product-filter">
+                                    <h5>Categories</h5>
+                                    <ul class="widget-nav-list">
+                                        <li><a href="#">All</a></li>
+                                        @foreach (var category in Model.Categories)
+                                        {
+                                            <li><a href="#">@category.Name</a></li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class=" mb-20 col__20">
+                                <div class="product-filter">
+                                    <h5>Tags</h5>
+                                    <div class="tagcloud"><a href="#" class="selected">All</a><a href="#" class="">Accesssories</a><a href="#" class="">Box</a><a href="#" class="">chair</a><a href="#" class="">Deco</a><a href="#" class="">Furniture</a><a href="#" class="">Glass</a><a href="#" class="">Pottery</a><a href="#" class="">Table</a></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab_columns_01">
+                            <div class="allProducts">
+                                <div class="row">
+                                    @{
+                                        var filterProduct = new ShopVM();
+                                        filterProduct.Products = Model.Products;
+                                        filterProduct.Pager = Model.Pager;
+                                        Html.RenderPartial("FilterProducts", filterProduct);
+                                    }
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    @if (Model.Pager != null && Model.Pager.TotalPages > 1)
+                    {
+                        <div class="col-lg-12">
+                            <div class="pageination">
+                                <nav>
+                                    <ul class="pagination flex-wrap justify-content-center">
+                                        @if (Model.Pager.CurrentPage == 1)
+                                        {
+                                            <li class="page-item disabled">
+                                                <a class="page-link disabled" href="#" aria-label="Previous">
+                                                    <i class="fas fa-angle-left"></i>
+                                                </a>
+                                            </li>
+                                        }
+                                        else
+                                        {
+                                            <li class="page-item">
+                                                <a class="page-link" href="@Url.Action("Index","Products",new { pageNo=Model.Pager.CurrentPage-1})">
+                                                    <i class="fas fa-angle-left"></i>
+                                                </a>
+                                            </li>
+                                        }
+
+                                        @for (int page = Model.Pager.StartPage; page < Model.Pager.EndPage + 1; page++)
+                                        {
+                                            var active = page == Model.Pager.CurrentPage ? "active" : string.Empty;
+
+                                            <li class="page-item @active">
+                                                <a class="page-link" href="@Url.Action("Index","Products",new { pageNo=page})">
+                                                    @page
+                                                </a>
+                                            </li>
+                                        }
+
+                                        @if (Model.Pager.CurrentPage == Model.Pager.EndPage)
+                                        {
+                                            <li class="page-item disabled">
+                                                <a class="page-link disabled">
+                                                    <i class="fas fa-angle-right"></i>
+                                                </a>
+                                            </li>
+                                        }
+                                        else
+                                        {
+                                            <li class="page-item">
+                                                <a class="page-link" href="@Url.Action("Index","Products",new { pageNo=Model.Pager.CurrentPage+1})">
+                                                    <i class="fas fa-angle-right"></i>
+                                                </a>
+                                            </li>
+                                        }
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+        </div>
+    </div>
+    <!-- Product Area End -->
+
+</div>
+
+
+
+
+
+@section scripts{
+    <script src="~/Scripts/proDetailMain.js"></script>
+    <script>
+        (function () {
+            @*$(".btnpag").on("click", function () {
+                const pageVal = $(this).attr("data-pageno")
+                $.ajax({
+                    url: "@Url.Action("FilterProducts","Products")",
+                    method: "Get",
+                    dataType: "JSON",
+                    data: {
+                        pageNo: pageVal
+                    },
+                    success: function (res) {
+                        $(".allProducts").html(res)
+                        console.log(res)
+                    }
+                })
+            })*@
+
+
+            // Get inputs by container
+            var callTimeOut;
+            var fromValue, toValue;
+            $('.double-slider input[type="range"]').on('input', function (e) {
+                // Split the elements From/To Slider and From/To values so you can handle them separtely
+                const fromSlider = $(this).parent().children('input[type="range"].from'),
+                    toSlider = $(this).parent().children('input[type="range"].to'),
+
+                    currentlySliding = $(this).hasClass('from') ? 'from' : 'to',
+                    outputElemFrom = $(this).parent().children('.value-output.from'),
+                    outputElemTo = $(this).parent().children('.value-output.to');
+                fromValue = parseInt($(this).parent().children('input[type="range"].from').val());
+                toValue = parseInt($(this).parent().children('input[type="range"].to').val());
+                // Check which slider has been adjusted and prevent them from crossing each other
+                if (currentlySliding == 'from' && fromValue >= toValue) {
+                    fromSlider.val((toValue - 1));
+                    fromValue = (toValue - 1);
+                } else if (currentlySliding == 'to' && toValue <= fromValue) {
+                    toSlider.val((fromValue + 1));
+                    toValue = (fromValue + 1);
+                }
+
+                // Updating the output values so they mirror the current slider's value
+                outputElemFrom.html(fromValue);
+                outputElemTo.html(toValue);
+                // Caluculating and setting the progressbar widths
+                clearTimeout(callTimeOut)
+                callTimeOut = setTimeout(GetData,1500)
+                $('.progressbar_from').css('width', ((fromSlider.width() / parseInt(fromSlider[0].max)) * fromSlider[0].value) + "px");
+                $('.progressbar_to').css('width', (toSlider.width() - ((toSlider.width() / parseInt(toSlider[0].max)) * toSlider[0].value)) + "px");
+
+            });
+            function GetData() {
+                $.ajax({
+                    url:'@Url.Action("FilterProducts","Products")',
+                    data: {
+                        sortBy:'@Model.SortBy',
+                        categoryID:'@Model.CategoryId',
+                        minimumPrice: fromValue,
+                        maximumPrice: toValue
+                    }
+                }).done(function (response) {
+                    $(".allProducts").html(response)
+                })
+
+                .fail(function () {
+
+                })
+            }
+        })();
+    </script>
+
+}
+
+
+

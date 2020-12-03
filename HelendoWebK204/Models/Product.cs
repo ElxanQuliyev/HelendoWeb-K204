@@ -5,7 +5,6 @@ namespace HelendoWebK204.Models
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
-    using System.Web.Mvc;
 
     public partial class Product
     {
@@ -18,12 +17,13 @@ namespace HelendoWebK204.Models
         [StringLength(250)]
         public string Name { get; set; }
 
-        [AllowHtml]
         public string Description { get; set; }
 
         public decimal? Discount { get; set; }
 
         public decimal Price { get; set; }
+        public string Notes{ get; set; }
+
 
         public int? categoryID { get; set; }
 

@@ -4,57 +4,107 @@
     ViewBag.Title = "Index";
     Layout = "~/Areas/Dashboard/Views/Shared/_LayoutAdmin.cshtml";
 }
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.22/datatables.min.css" />
 
 <h2>Index</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.ImageUrl)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Price)
-        </th>
-        <th>
-            CategoryName
-        </th>
-        
-        <th>
-            @Html.DisplayNameFor(model => model.IsFeatured)
-        </th>
-        <th></th>
-    </tr>
+<table class="table" id="table-pro">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ImageUrl)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                CategoryName
+            </th>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            <img src="@item.ImageUrl" alt="Alternate Text" />
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Price)
-        </td>
-        <td>
-            @*@item.Category.Name*@
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IsFeatured)
-        </td>
-        
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
-        </td>
-    </tr>
-}
+            <th>
+                @Html.DisplayNameFor(model => model.IsFeatured)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <img src="@item.ImageUrl" alt="Alternate Text" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @*@item.Category.Name*@
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsFeatured)
+                </td>
 
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                    @Html.ActionLink("Details", "Detail", new { id = item.ID }) |
+                    <a class="pro-Delete" pro-id="@item.ID" href="javascript:void(0)">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>
+@section scriptAdmin {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.22/datatables.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#table-pro').DataTable({
+                "pagingType": "full_numbers"
+            });
+        });        $(".pro-Delete").click(function () {
+            const proId = $(this).attr("pro-id")
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire(
+                        'Deleted!',
+                        'Your file has been deleted.',
+                        'success'
+                    )
+                $.ajax({
+                    url: "@Url.Action("Deleted","AdminProducts")",
+                    data: {
+                        id:proId,
+                    },
+                    dataType: "Json",
+                    method: "POST",
+                    success: function (res) {
+                        setTimeout(function () {
+                            window.location.reload()
+                        },1000)
+                    }
+                })
+                }
+            })
+
+        })
+    </script>
+}

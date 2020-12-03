@@ -4,8 +4,7 @@
     ViewBag.Title = "Create";
     Layout = "~/Areas/Dashboard/Views/Shared/_LayoutAdmin.cshtml";
 }
-<script src="https://cdn.ckeditor.com/ckeditor5/23.1.0/classic/ckeditor.js"></script>
-
+<script src="~/Scripts/ckeditor/ckeditor.js"></script>
 <h2>Create</h2>
 <div class="bg-danger p-3">
     @using (Html.BeginForm("Create", "AdminProducts", FormMethod.Post, new { enctype = "multipart/form-data" }))
@@ -34,9 +33,10 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", @id = "myDesc" } })
+                    @Html.TextAreaFor(model => model.Description, new { @class = "form-control", @id = "FLDesc" })
                     @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
                 </div>
+
             </div>
 
             <div class="form-group">
@@ -58,7 +58,7 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.categoryID, "categoryID", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @*@Html.DropDownList("categoryID", null, htmlAttributes: new { @class = "form-control" })*@
+                    @Html.DropDownList("categoryID", null, htmlAttributes: new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.categoryID, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -116,10 +116,7 @@
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
+
 <script>
-    ClassicEditor
-        .create(document.querySelector('#myDesc'))
-        .catch(error => {
-            console.error(error);
-        });
+    CKEDITOR.replace('Description', { height: 500 });
 </script>
